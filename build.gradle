@@ -10,6 +10,7 @@ buildscript {
     }
 }
 
+apply plugin: 'scala'
 apply plugin: 'net.minecraftforge.gradle'
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 apply plugin: 'org.spongepowered.mixin'
@@ -20,6 +21,13 @@ group = mod_group
 archivesBaseName = mod_id
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+tasks.compileJava.dependsOn compileScala
+tasks.compileScala.dependsOn.remove("compileJava")
 
 minecraft {
     mappings channel: mappings_channel, version: mappings_version
@@ -52,6 +60,7 @@ configurations {
 }
 
 dependencies {
+    compile files("$sourceSets.main.scala.outputDir")
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
     embed('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
@@ -94,6 +103,17 @@ jar {
         attributes "ForceLoadAsMod": "true"
         attributes "TweakClass": "org.spongepowered.asm.launch.MixinTweaker"
         attributes "TweakOrder": "0"
+    }
+}
+
+sourceSets {
+    main {
+        scala {
+            outputDir = file("$buildDir/classes/scala/main")
+        }
+        java {
+            outputDir = file("$buildDir/classes/java/main")
+        }
     }
 }
 
