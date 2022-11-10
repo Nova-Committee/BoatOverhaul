@@ -1,4 +1,4 @@
-package committee.nova.boatoverhaul.api;
+package committee.nova.boatoverhaul.api.common.boat.shiftable;
 
 public interface IShiftable {
     int getNumerator();

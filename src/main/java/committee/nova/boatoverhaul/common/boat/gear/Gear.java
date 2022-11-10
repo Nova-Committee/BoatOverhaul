@@ -1,6 +1,6 @@
-package committee.nova.boatoverhaul.common.gear;
+package committee.nova.boatoverhaul.common.boat.gear;
 
-import committee.nova.boatoverhaul.api.IShiftable;
+import committee.nova.boatoverhaul.api.common.boat.shiftable.IShiftable;
 
 public enum Gear implements IShiftable {
     ASTERN(-1, 4),

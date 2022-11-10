@@ -1,6 +1,6 @@
 package committee.nova.boatoverhaul.mixin;
 
-import committee.nova.boatoverhaul.api.IInput;
+import committee.nova.boatoverhaul.api.client.input.IInput;
 import net.minecraft.client.player.Input;
 import org.spongepowered.asm.mixin.Mixin;
 

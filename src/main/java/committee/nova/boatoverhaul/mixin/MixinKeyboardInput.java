@@ -1,7 +1,7 @@
 package committee.nova.boatoverhaul.mixin;
 
-import committee.nova.boatoverhaul.api.IInput;
-import committee.nova.boatoverhaul.common.key.KeyInit;
+import committee.nova.boatoverhaul.api.client.input.IInput;
+import committee.nova.boatoverhaul.common.key.Keys;
 import net.minecraft.client.player.KeyboardInput;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,7 +13,7 @@ public abstract class MixinKeyboardInput {
     @Inject(method = "tick", at = @At("HEAD"))
     public void inject$tick(boolean b, float f, CallbackInfo ci) {
         final IInput extended = (IInput) this;
-        extended.setLeftRudder(KeyInit.keyLeftRudder.isDown());
-        extended.setRightRudder(KeyInit.keyRightRudder.isDown());
+        extended.setLeftRudder(Keys.keyLeftRudder.isDown());
+        extended.setRightRudder(Keys.keyRightRudder.isDown());
     }
 }

@@ -1,10 +1,10 @@
 package committee.nova.boatoverhaul.mixin;
 
-import committee.nova.boatoverhaul.api.IBoat;
-import committee.nova.boatoverhaul.common.gear.Gear;
-import committee.nova.boatoverhaul.common.gear.Rudder;
-import committee.nova.boatoverhaul.common.status.GearStatus;
-import committee.nova.boatoverhaul.common.status.RudderStatus;
+import committee.nova.boatoverhaul.api.common.boat.IBoat;
+import committee.nova.boatoverhaul.common.boat.gear.Gear;
+import committee.nova.boatoverhaul.common.boat.gear.Rudder;
+import committee.nova.boatoverhaul.common.boat.state.GearState;
+import committee.nova.boatoverhaul.common.boat.state.RudderState;
 import committee.nova.boatoverhaul.util.Utilities;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
@@ -34,8 +34,8 @@ public abstract class MixinBoat extends Entity implements IBoat {
     private boolean inputRRudder;
     private Rudder targetRudder;
     private Gear targetGear;
-    private GearStatus gearStatus;
-    private RudderStatus rudderStatus;
+    private GearState gearState;
+    private RudderState rudderState;
 
     public MixinBoat(EntityType<?> e, Level l) {
         super(e, l);
@@ -87,36 +87,47 @@ public abstract class MixinBoat extends Entity implements IBoat {
     }
 
     @Override
-    public boolean getInputLRudder() {
-        return inputLRudder;
+    public int getGearAccumulation() {
+        return gearAccumulation;
     }
 
     @Override
-    public boolean getInputRRudder() {
-        return inputRRudder;
+    public int getMaxGearAccumulation() {
+        return maxGearAccumulation;
     }
 
     @Override
-    public GearStatus getGearStatus() {
-        if (gearStatus == null) gearStatus = new GearStatus();
-        return gearStatus;
+    public GearState getGearState() {
+        if (gearState == null) gearState = new GearState();
+        return gearState;
     }
 
     @Override
-    public RudderStatus getRudderStatus() {
-        if (rudderStatus == null) rudderStatus = new RudderStatus();
-        return rudderStatus;
+    public RudderState getRudderState() {
+        if (rudderState == null) rudderState = new RudderState();
+        return rudderState;
     }
 
+    @Override
     public Gear getTargetGear() {
         if (targetGear == null) targetGear = Gear.STOP;
         return targetGear;
     }
 
+    @Override
+    public Rudder getTargetRudder() {
+        return targetRudder;
+    }
+
+    @Override
+    public boolean isRudderWorking() {
+        return this.rudderState.isWorking() || (inputLeft != inputRight);
+    }
+
     @Inject(method = "<init>(Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/world/level/Level;)V", at = @At("RETURN"))
     public void inject$init(EntityType<?> e, Level l, CallbackInfo ci) {
-        rudderStatus = new RudderStatus();
-        gearStatus = new GearStatus();
+        rudderState = new RudderState();
+        gearState = new GearState();
     }
 
     /**
@@ -129,15 +140,15 @@ public abstract class MixinBoat extends Entity implements IBoat {
             float f = 0.0F;
             handleRuddering();
             decideRudderStateByAccumulation();
-            deltaRotation += 0.2F * getRudderStatus().getRudder().getStandardRate();
-            if (!getRudderStatus().hasNoAction() && getGearStatus().hasNoAction()) f += 0.005F;
+            deltaRotation += 0.2F * getRudderState().getRudder().getStandardRate();
+            if (getRudderState().isWorking() && getGearState().hasNoAction()) f += 0.005F;
             this.setYRot(this.getYRot() + this.deltaRotation);
             handleGearing();
             decideGearStateByAccumulation();
-            f += getGearStatus().getGear().getStandardRate() * 0.08F;
+            f += getGearState().getGear().getStandardRate() * 0.08F;
 
             this.setDeltaMovement(this.getDeltaMovement().add(Mth.sin(-this.getYRot() * ((float) Math.PI / 180F)) * f, 0.0D, Mth.cos(this.getYRot() * ((float) Math.PI / 180F)) * f));
-            this.setPaddleState(getRudderStatus().isRudderingToRight() || getGearStatus().isAhead(), getRudderStatus().isRudderingToLeft() || getGearStatus().isAhead());
+            this.setPaddleState(getRudderState().isRudderingToRight() || getGearState().isAhead(), getRudderState().isRudderingToLeft() || getGearState().isAhead());
         }
     }
 
@@ -145,7 +156,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
         if (this.rudderCd > 0) rudderCd--;
         if (this.inputLeft || this.inputRight) clearAutoRudder();
         if (this.rudderCd == 0 && this.inputLRudder && !this.inputRRudder) {
-            if (targetRudder == null) targetRudder = Rudder.ZERO;
+            if (targetRudder == null) targetRudder = this.rudderState.getRudder();
             final int origin = targetRudder.getNumerator();
             final int current = Math.max(targetRudder.getNumerator() - 1, Rudder.getMinimumNumerator());
             if (origin != current) {
@@ -156,7 +167,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
                 //todo: play sound
             }
         } else if (this.rudderCd == 0 && !this.inputLRudder && this.inputRRudder) {
-            if (targetRudder == null) targetRudder = Rudder.ZERO;
+            if (targetRudder == null) targetRudder = this.rudderState.getRudder();
             final int origin = targetRudder.getNumerator();
             final int current = Math.min(targetRudder.getNumerator() + 1, targetRudder.getDenominator());
             if (origin != current) {
@@ -168,29 +179,34 @@ public abstract class MixinBoat extends Entity implements IBoat {
                 //todo: play sound
             }
         }
-        if ((this.inputLeft && !this.inputRight) || (targetRudder != null && targetRudder.compareTo(getRudderStatus().getRudder()) < 0)) {
-            if (rudderAccumulation > -maxRudderAccumulation) rudderAccumulation--;
+        if ((this.inputLeft && !this.inputRight) || (targetRudder != null && targetRudder.compareTo(getRudderState().getRudder()) < 0)) {
+            if (getRudderState().getRudder() != Rudder.FULL_LEFT && rudderAccumulation > -maxRudderAccumulation)
+                rudderAccumulation--;
             return;
         }
-        if ((!this.inputLeft && this.inputRight) || (targetRudder != null && targetRudder.compareTo(getRudderStatus().getRudder()) > 0)) {
-            if (rudderAccumulation < maxRudderAccumulation) rudderAccumulation++;
+        if ((!this.inputLeft && this.inputRight) || (targetRudder != null && targetRudder.compareTo(getRudderState().getRudder()) > 0)) {
+            if (getRudderState().getRudder() != Rudder.FULL_RIGHT && rudderAccumulation < maxRudderAccumulation)
+                rudderAccumulation++;
             return;
         }
-        if (targetRudder != null) return;
-        if (rudderStatus.isRudderingToRight()) {
+        if (targetRudder != null) {
+            if (rudderAccumulation > 0) rudderAccumulation--;
+            if (rudderAccumulation < 0) rudderAccumulation++;
+            return;
+        }
+        if (rudderState.isRudderingToRight()) {
             rudderAccumulation--;
-        } else if (rudderStatus.isRudderingToLeft()) {
+        } else if (rudderState.isRudderingToLeft()) {
             rudderAccumulation++;
         } else {
-            if (rudderAccumulation > 0) {
-                rudderAccumulation--;
-            } else rudderAccumulation++;
+            if (rudderAccumulation > 0) rudderAccumulation--;
+            if (rudderAccumulation < 0) rudderAccumulation++;
         }
     }
 
     private void decideRudderStateByAccumulation() {
-        if ((getRudderStatus().getRudder() == Rudder.FULL_RIGHT && rudderAccumulation >= maxRudderAccumulation) ||
-                (getRudderStatus().getRudder() == Rudder.FULL_LEFT && rudderAccumulation <= -maxRudderAccumulation)) {
+        if ((getRudderState().getRudder() == Rudder.FULL_RIGHT && rudderAccumulation >= maxRudderAccumulation) ||
+                (getRudderState().getRudder() == Rudder.FULL_LEFT && rudderAccumulation <= -maxRudderAccumulation)) {
             return;
         }
         if (rudderAccumulation >= maxRudderAccumulation) rightRudderAndClearAccumulation();
@@ -218,29 +234,32 @@ public abstract class MixinBoat extends Entity implements IBoat {
                     Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> p.playNotifySound(s, SoundSource.PLAYERS, 1.0F, 1.0F));
             }
         }
-        if (getTargetGear().compareTo(gearStatus.getGear()) < 0) {
+        if (getTargetGear().compareTo(gearState.getGear()) < 0) {
             if (gearAccumulation > -maxGearAccumulation) gearAccumulation--;
             return;
         }
-        if (getTargetGear().compareTo(gearStatus.getGear()) > 0) {
+        if (getTargetGear().compareTo(gearState.getGear()) > 0) {
             if (gearAccumulation < maxGearAccumulation) gearAccumulation++;
+            return;
         }
+        if (gearAccumulation > 0) gearAccumulation--;
+        if (gearAccumulation < 0) gearAccumulation++;
     }
 
     private void decideGearStateByAccumulation() {
-        if ((getGearStatus().getGear() == Gear.FULL && gearAccumulation >= maxGearAccumulation) || (getGearStatus().getGear() == Gear.ASTERN && gearAccumulation <= -maxGearAccumulation))
+        if ((getGearState().getGear() == Gear.FULL && gearAccumulation >= maxGearAccumulation) || (getGearState().getGear() == Gear.ASTERN && gearAccumulation <= -maxGearAccumulation))
             return;
         if (gearAccumulation >= maxGearAccumulation) gearForwardAndClearAccumulation();
         if (gearAccumulation <= -maxGearAccumulation) gearBackAndClearAccumulation();
     }
 
     private void rightRudderAndClearAccumulation() {
-        getRudderStatus().rightRudder();
+        getRudderState().rightRudder();
         rudderAccumulation = 0;
     }
 
     private void leftRudderAndClearAccumulation() {
-        getRudderStatus().leftRudder();
+        getRudderState().leftRudder();
         rudderAccumulation = 0;
     }
 
@@ -249,12 +268,12 @@ public abstract class MixinBoat extends Entity implements IBoat {
     }
 
     private void gearForwardAndClearAccumulation() {
-        getGearStatus().forward();
+        getGearState().forward();
         gearAccumulation = 0;
     }
 
     private void gearBackAndClearAccumulation() {
-        getGearStatus().back();
+        getGearState().back();
         gearAccumulation = 0;
     }
 }

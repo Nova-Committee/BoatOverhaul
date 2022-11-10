@@ -1,11 +1,11 @@
-package committee.nova.boatoverhaul.common.status;
+package committee.nova.boatoverhaul.common.boat.state;
 
-import committee.nova.boatoverhaul.common.gear.Rudder;
+import committee.nova.boatoverhaul.common.boat.gear.Rudder;
 
-public class RudderStatus {
+public class RudderState {
     private Rudder rudder;
 
-    public RudderStatus() {
+    public RudderState() {
         rudder = Rudder.ZERO;
     }
 
@@ -13,8 +13,8 @@ public class RudderStatus {
         return rudder;
     }
 
-    public boolean hasNoAction() {
-        return rudder == Rudder.ZERO;
+    public boolean isWorking() {
+        return rudder != Rudder.ZERO;
     }
 
     public boolean isRudderingToLeft() {

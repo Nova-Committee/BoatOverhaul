@@ -6,6 +6,4 @@ modId = "boatoverhaul"
 version = "${file.jarVersion}"
 displayName = "BoatOverhaul"
 authors = "Tapio"
-description = '''
-
-'''
+description = "Adds WOWS-like boat driving mechanism!"

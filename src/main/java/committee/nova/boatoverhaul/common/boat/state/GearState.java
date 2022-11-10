@@ -1,11 +1,11 @@
-package committee.nova.boatoverhaul.common.status;
+package committee.nova.boatoverhaul.common.boat.state;
 
-import committee.nova.boatoverhaul.common.gear.Gear;
+import committee.nova.boatoverhaul.common.boat.gear.Gear;
 
-public class GearStatus {
+public class GearState {
     private Gear gear;
 
-    public GearStatus() {
+    public GearState() {
         gear = Gear.STOP;
     }
 

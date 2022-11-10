@@ -1,7 +1,7 @@
 package committee.nova.boatoverhaul.mixin;
 
-import committee.nova.boatoverhaul.api.IBoat;
-import committee.nova.boatoverhaul.api.IInput;
+import committee.nova.boatoverhaul.api.client.input.IInput;
+import committee.nova.boatoverhaul.api.common.boat.IBoat;
 import net.minecraft.client.player.Input;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.entity.vehicle.Boat;

@@ -11,7 +11,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
-public class KeyInit {
+public class Keys {
     public static final KeyMapping keyLeftRudder = new KeyMapping("key.leftRudder",
             KeyConflictContext.IN_GAME, KeyModifier.NONE,
             InputConstants.Type.KEYSYM, InputConstants.KEY_NUMPAD4, "key.categories.movement");

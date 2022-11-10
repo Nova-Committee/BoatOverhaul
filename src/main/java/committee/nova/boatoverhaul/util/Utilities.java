@@ -1,8 +1,8 @@
 package committee.nova.boatoverhaul.util;
 
-import committee.nova.boatoverhaul.api.IShiftable;
-import committee.nova.boatoverhaul.common.gear.Gear;
-import committee.nova.boatoverhaul.common.gear.Rudder;
+import committee.nova.boatoverhaul.api.common.boat.shiftable.IShiftable;
+import committee.nova.boatoverhaul.common.boat.gear.Gear;
+import committee.nova.boatoverhaul.common.boat.gear.Rudder;
 import committee.nova.boatoverhaul.common.sound.Sounds;
 import net.minecraft.sounds.SoundEvent;
 
