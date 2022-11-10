@@ -27,9 +27,9 @@ public abstract class MixinBoat extends Entity implements IBoat {
     private int gearCd;
     private int rudderCd;
     private int rudderAccumulation;
-    private final int maxRudderAccumulation = 30;
+    private final int maxRudderAccumulation = 20;
     private int gearAccumulation;
-    private final int maxGearAccumulation = 30;
+    private final int maxGearAccumulation = 20;
     private boolean inputLRudder;
     private boolean inputRRudder;
     private Rudder targetRudder;
@@ -129,10 +129,8 @@ public abstract class MixinBoat extends Entity implements IBoat {
             float f = 0.0F;
             handleRuddering();
             decideRudderStateByAccumulation();
-            this.deltaRotation = this.deltaRotation + 0.8F * getRudderStatus().getRudder().getNumerator() / getRudderStatus().getRudder().getDenominator();
-            if (!getRudderStatus().hasNoAction() && getGearStatus().hasNoAction()) {
-                f += 0.005F;
-            }
+            deltaRotation += 0.2F * getRudderStatus().getRudder().getStandardRate();
+            if (!getRudderStatus().hasNoAction() && getGearStatus().hasNoAction()) f += 0.005F;
             this.setYRot(this.getYRot() + this.deltaRotation);
             handleGearing();
             decideGearStateByAccumulation();
@@ -178,6 +176,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
             if (rudderAccumulation < maxRudderAccumulation) rudderAccumulation++;
             return;
         }
+        if (targetRudder != null) return;
         if (rudderStatus.isRudderingToRight()) {
             rudderAccumulation--;
         } else if (rudderStatus.isRudderingToLeft()) {
@@ -217,7 +216,6 @@ public abstract class MixinBoat extends Entity implements IBoat {
                 gearCd = 5;
                 if (getControllingPassenger() instanceof Player p)
                     Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> p.playNotifySound(s, SoundSource.PLAYERS, 1.0F, 1.0F));
-                //todo: play sound
             }
         }
         if (getTargetGear().compareTo(gearStatus.getGear()) < 0) {
