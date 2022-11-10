@@ -16,10 +16,10 @@ plugins {
 apply plugin: 'org.spongepowered.mixin'
 
 group = 'committee.nova'
-version = '1.0.0'
+version = "${version}"
 
 java {
-    archivesBaseName = 'boatoverhaul'
+    archivesBaseName = 'BoatOverhaul-Forge-1.19.2'
     toolchain.languageVersion = JavaLanguageVersion.of(17)
 }
 
