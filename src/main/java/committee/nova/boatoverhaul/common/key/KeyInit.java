@@ -1,4 +1,4 @@
-package committee.nova.boatoverhaul.key;
+package committee.nova.boatoverhaul.common.key;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
@@ -10,7 +10,7 @@ import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class KeyInit {
     public static final KeyMapping keyLeftRudder = new KeyMapping("key.leftRudder",
             KeyConflictContext.IN_GAME, KeyModifier.NONE,

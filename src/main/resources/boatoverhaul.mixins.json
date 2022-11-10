@@ -9,7 +9,8 @@
   ],
   "client": [
     "MixinInput",
-    "MixinKeyboardInput"
+    "MixinKeyboardInput",
+    "MixinLocalPlayer"
   ],
   "injectors": {
     "defaultRequire": 1

@@ -1,4 +1,4 @@
-package committee.nova.boatoverhaul.gear;
+package committee.nova.boatoverhaul.common.gear;
 
 import committee.nova.boatoverhaul.api.IShiftable;
 
@@ -15,10 +15,6 @@ public enum Gear implements IShiftable {
     Gear(int numerator, int denominator) {
         this.numerator = numerator;
         this.denominator = denominator;
-    }
-
-    public void forward() {
-
     }
 
     @Override

@@ -1,4 +1,4 @@
-package committee.nova.boatoverhaul.gear;
+package committee.nova.boatoverhaul.common.gear;
 
 import committee.nova.boatoverhaul.api.IShiftable;
 
