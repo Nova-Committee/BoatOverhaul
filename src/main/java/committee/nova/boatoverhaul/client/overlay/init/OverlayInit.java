@@ -45,8 +45,8 @@ public class OverlayInit {
         RenderSystem.setShaderTexture(0, overlay);
         renderGearScale(boat.getTargetGear(), matrix, gearXOffset, gearYOffset);
         renderGearCursor(boat.getGearState().getGear(), (int) (10F * boat.getGearAccumulation() / boat.getMaxGearAccumulation()), matrix, gearXOffset + 25, gearYOffset + 42);
-        if (boat.getTargetRudder() != null && boat.getTargetRudder() != Rudder.ZERO) {
-            renderRudderScale(boat.getTargetRudder(), matrix, rudderXOffset, rudderYOffset);
+        if (boat.getTargetRudder() != null && (boat.getTargetRudder() != Rudder.ZERO || boat.getTargetRudder() != boat.getRudderState().getRudder())) {
+            renderRudderScale(boat.getTargetRudder() == Rudder.ZERO ? null : boat.getTargetRudder(), matrix, rudderXOffset, rudderYOffset);
             renderRudderCursor(boat.getRudderState().getRudder(), (int) (25F * boat.getRudderAccumulation() / boat.getMaxRudderAccumulation()), matrix, rudderXOffset + 9, rudderYOffset + 12);
         } else if (boat.isRudderWorking()) {
             renderRudderScale(boat.getRudderState().getRudder(), matrix, rudderXOffset, rudderYOffset);
