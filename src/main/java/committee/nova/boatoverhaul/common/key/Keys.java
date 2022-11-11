@@ -12,10 +12,10 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Keys {
-    public static final KeyMapping keyLeftRudder = new KeyMapping("key.leftRudder",
+    public static final KeyMapping keyLeftRudder = new KeyMapping("key.boatoverhaul.leftRudder",
             KeyConflictContext.IN_GAME, KeyModifier.NONE,
             InputConstants.Type.KEYSYM, InputConstants.KEY_NUMPAD4, "key.categories.movement");
-    public static final KeyMapping keyRightRudder = new KeyMapping("key.rightRudder",
+    public static final KeyMapping keyRightRudder = new KeyMapping("key.boatoverhaul.rightRudder",
             KeyConflictContext.IN_GAME, KeyModifier.NONE,
             InputConstants.Type.KEYSYM, InputConstants.KEY_NUMPAD6, "key.categories.movement");
 
