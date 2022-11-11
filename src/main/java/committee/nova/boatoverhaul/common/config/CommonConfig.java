@@ -9,8 +9,8 @@ public class CommonConfig {
     static {
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.comment("Boat Overhaul Common Config");
-        allowSteeringWhenStopped = builder.comment("Allows a boat to steer with a very small extra forward speed when the gear state is at STOP")
-                .define("allowSteeringWhenStopped", false);
+        allowSteeringWhenStopped = builder.comment("Allows a boat to turn its rudder with a very small extra forward speed when the gear state is at STOP")
+                .define("allowRudderingWhenStopped", false);
         CONFIG = builder.build();
     }
 }
