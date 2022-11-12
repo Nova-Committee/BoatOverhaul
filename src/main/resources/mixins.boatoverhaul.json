@@ -1,0 +1,14 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "required": true,
+  "package": "committee.nova.boatoverhaul.mixin",
+  "refmap": "refmap.boatoverhaul.json",
+  "mixins": [
+    "MixinEntityBoat"
+  ],
+  "client": [
+    "MixinEntityPlayerSP",
+    "MixinMovementInput",
+    "MixinMovementInputFromOptions"
+  ]
+}
