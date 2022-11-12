@@ -138,17 +138,17 @@ public abstract class MixinBoat extends Entity implements IBoat {
     @Overwrite
     private void controlBoat() {
         if (!this.isVehicle()) return;
-        float f = 0.0F;
         handleRuddering();
         decideRudderStateByAccumulation();
-        if (CommonConfig.allowSteeringWhenStopped.get() || !getGearState().hasNoAction())
-            deltaRotation += 0.2F * getRudderState().getRudder().getStandardRate();
+        float f = 0.0F;
         if (CommonConfig.allowSteeringWhenStopped.get() && getRudderState().isWorking() && getGearState().hasNoAction())
             f += 0.005F;
-        this.setYRot(this.getYRot() + this.deltaRotation);
         handleGearing();
         decideGearStateByAccumulation();
         f += getGearState().getGear().getStandardRate() * 0.08F;
+        if (CommonConfig.allowSteeringWhenStopped.get() || !getGearState().hasNoAction())
+            deltaRotation += (f >= 0.0F || CommonConfig.reverseRudderWhenSailingAstern.get() ? 1.0F : -1.0F) * 0.2F * getRudderState().getRudder().getStandardRate();
+        this.setYRot(this.getYRot() + this.deltaRotation);
         this.setDeltaMovement(this.getDeltaMovement().add(Mth.sin(-this.getYRot() * ((float) Math.PI / 180F)) * f, 0.0D, Mth.cos(this.getYRot() * ((float) Math.PI / 180F)) * f));
         if (CommonConfig.allowSteeringWhenStopped.get())
             this.setPaddleState((getRudderState().isRudderingToRight() || getGearState().isAhead()), getRudderState().isRudderingToLeft() || getGearState().isAhead());
