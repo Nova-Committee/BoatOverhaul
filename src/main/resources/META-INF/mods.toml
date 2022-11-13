@@ -1,0 +1,9 @@
+modLoader = "javafml"
+loaderVersion = "[32,)"
+license = "GNU AGPL 3.0"
+[[mods]]
+modId = "boatoverhaul"
+version = "${file.jarVersion}"
+displayName = "BoatOverhaul"
+authors = "Tapio"
+description = "Adds WOWS-like boat driving mechanism!"
