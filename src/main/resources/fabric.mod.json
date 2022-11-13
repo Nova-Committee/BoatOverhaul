@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "boatoverhaul",
+  "version": "${version}",
+  "name": "Boatoverhaul",
+  "description": "",
+  "authors": [
+    "Tapio"
+  ],
+  "contact": {},
+  "license": "AGPL-3.0",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "committee.nova.boatoverhaul.client.BoatOverhaulClient"
+    ],
+    "main": [
+      "committee.nova.boatoverhaul.BoatOverhaul"
+    ]
+  },
+  "mixins": [
+    "boatoverhaul.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": "*",
+    "fabric": "*",
+    "minecraft": "*"
+  }
+}
