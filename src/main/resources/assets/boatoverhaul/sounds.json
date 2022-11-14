@@ -1,0 +1,66 @@
+{
+  "gear_astern": {
+    "sounds": [
+      {
+        "name": "boatoverhaul:gear_astern",
+        "stream": true
+      }
+    ]
+  },
+  "gear_stop": {
+    "sounds": [
+      {
+        "name": "boatoverhaul:gear_stop",
+        "stream": true
+      }
+    ]
+  },
+  "gear_ahead_1": {
+    "sounds": [
+      {
+        "name": "boatoverhaul:gear_ahead_1",
+        "stream": true
+      }
+    ]
+  },
+  "gear_ahead_2": {
+    "sounds": [
+      {
+        "name": "boatoverhaul:gear_ahead_2",
+        "stream": true
+      }
+    ]
+  },
+  "gear_ahead_3": {
+    "sounds": [
+      {
+        "name": "boatoverhaul:gear_ahead_3",
+        "stream": true
+      }
+    ]
+  },
+  "gear_ahead_4": {
+    "sounds": [
+      {
+        "name": "boatoverhaul:gear_ahead_4",
+        "stream": true
+      }
+    ]
+  },
+  "rudder_half": {
+    "sounds": [
+      {
+        "name": "boatoverhaul:gear_stop",
+        "stream": true
+      }
+    ]
+  },
+  "rudder_full": {
+    "sounds": [
+      {
+        "name": "boatoverhaul:rudder_full",
+        "stream": true
+      }
+    ]
+  }
+}
