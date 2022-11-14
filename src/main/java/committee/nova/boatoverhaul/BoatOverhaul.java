@@ -18,7 +18,7 @@ public class BoatOverhaul implements ModInitializer {
                         # BoatOverhaul Configs
                         # Allows a boat to turn its rudder with a very small extra forward speed when the gear state is at STOP
                         allowRudderingWhenStopped=false
-                        If set to true, a boat sailing backwards and ruddering to right, for example, will sail to the left rearward
+                        # If set to true, a boat sailing backwards and ruddering to right, for example, will sail to the left rearward
                         reverseRudderWhenSailingAstern=false
                         """
         ).request();

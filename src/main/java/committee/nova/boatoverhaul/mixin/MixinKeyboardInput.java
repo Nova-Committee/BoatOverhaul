@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(KeyboardInput.class)
 public abstract class MixinKeyboardInput {
     @Inject(method = "tick", at = @At("HEAD"))
-    public void inject$tick(boolean b, CallbackInfo ci) {
+    public void inject$tick(boolean bl, float f, CallbackInfo ci) {
         final IInput extended = (IInput) this;
         extended.setLeftRudder(Keys.keyLeftRudder.isDown());
         extended.setRightRudder(Keys.keyRightRudder.isDown());
