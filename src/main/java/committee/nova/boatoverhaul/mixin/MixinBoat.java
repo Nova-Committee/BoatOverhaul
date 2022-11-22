@@ -136,7 +136,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
      * @reason Overhaul ship sailing mechanism
      */
     @Overwrite
-    private void controlBoat() {
+    public void controlBoat() {
         if (!this.isVehicle()) return;
         handleRuddering();
         decideRudderStateByAccumulation();
