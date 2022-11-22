@@ -1,7 +1,8 @@
 package committee.nova.boatoverhaul.mixin;
 
-import committee.nova.boatoverhaul.BoatOverhaul;
+import committee.nova.boatoverhaul.api.client.sound.SoundUtil;
 import committee.nova.boatoverhaul.api.common.boat.IBoat;
+import committee.nova.boatoverhaul.client.BoatOverhaulClient;
 import committee.nova.boatoverhaul.common.boat.gear.Gear;
 import committee.nova.boatoverhaul.common.boat.gear.Rudder;
 import committee.nova.boatoverhaul.common.boat.state.GearState;
@@ -140,16 +141,16 @@ public abstract class MixinBoat extends Entity implements IBoat {
         handleRuddering();
         decideRudderStateByAccumulation();
         float f = 0.0F;
-        if (BoatOverhaul.shouldAllowSteeringWhenStopped() && getRudderState().isWorking() && getGearState().hasNoAction())
+        if (BoatOverhaulClient.shouldAllowSteeringWhenStopped() && getRudderState().isWorking() && getGearState().hasNoAction())
             f += 0.005F;
         handleGearing();
         decideGearStateByAccumulation();
-        f += getGearState().getGear().getStandardRate() * 0.08F;
-        if (BoatOverhaul.shouldAllowSteeringWhenStopped() || !getGearState().hasNoAction())
-            deltaRotation += (f >= 0.0F || BoatOverhaul.shouldReverseRudderWhenSailingAstern() ? 1.0F : -1.0F) * 0.2F * getRudderState().getRudder().getStandardRate();
+        f += getGearState().getGear().getStandardRate() * 0.04F * BoatOverhaulClient.getSpeedMultiplier();
+        if (BoatOverhaulClient.shouldAllowSteeringWhenStopped() || !getGearState().hasNoAction())
+            deltaRotation += (f >= 0.0F || BoatOverhaulClient.shouldReverseRudderWhenSailingAstern() ? 1.0F : -1.0F) * 0.2F * getRudderState().getRudder().getStandardRate();
         this.setYRot(this.getYRot() + this.deltaRotation);
         this.setDeltaMovement(this.getDeltaMovement().add(Mth.sin(-this.getYRot() * ((float) Math.PI / 180F)) * f, 0.0D, Mth.cos(this.getYRot() * ((float) Math.PI / 180F)) * f));
-        if (BoatOverhaul.shouldAllowSteeringWhenStopped())
+        if (BoatOverhaulClient.shouldAllowSteeringWhenStopped())
             this.setPaddleState((getRudderState().isRudderingToRight() || getGearState().isAhead()), getRudderState().isRudderingToLeft() || getGearState().isAhead());
         else this.setPaddleState(getGearState().isAhead(), getGearState().isAhead());
     }
@@ -164,9 +165,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
             if (origin != current) {
                 targetRudder = Rudder.getRudderFromNumerator(current);
                 rudderCd = 5;
-                if (getControllingPassenger() instanceof final Player p) {
-                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> p.playNotifySound(s, SoundSource.PLAYERS, 1.0F, 1.0F));
-                }
+                Utilities.getSoundFromShiftable(targetRudder).ifPresent(SoundUtil::playUISound);
                 //todo: play sound
             }
         } else if (this.rudderCd == 0 && !this.inputLRudder && this.inputRRudder) {
@@ -176,9 +175,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
             if (origin != current) {
                 targetRudder = Rudder.getRudderFromNumerator(current);
                 rudderCd = 5;
-                if (getControllingPassenger() instanceof final Player p) {
-                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> p.playNotifySound(s, SoundSource.PLAYERS, 1.0F, 1.0F));
-                }
+                Utilities.getSoundFromShiftable(targetRudder).ifPresent(SoundUtil::playUISound);
             }
         }
         if ((this.inputLeft && !this.inputRight) || (targetRudder != null && targetRudder.compareTo(getRudderState().getRudder()) < 0)) {
