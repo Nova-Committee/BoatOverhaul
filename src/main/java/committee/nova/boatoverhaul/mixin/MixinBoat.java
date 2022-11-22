@@ -1,17 +1,17 @@
 package committee.nova.boatoverhaul.mixin;
 
 import committee.nova.boatoverhaul.api.common.boat.IBoat;
+import committee.nova.boatoverhaul.client.sound.SoundUtil;
 import committee.nova.boatoverhaul.common.boat.gear.Gear;
 import committee.nova.boatoverhaul.common.boat.gear.Rudder;
 import committee.nova.boatoverhaul.common.boat.state.GearState;
 import committee.nova.boatoverhaul.common.boat.state.RudderState;
-import committee.nova.boatoverhaul.common.config.CommonConfig;
+import committee.nova.boatoverhaul.common.config.ClientConfig;
 import committee.nova.boatoverhaul.util.Utilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.BoatEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -137,16 +137,16 @@ public abstract class MixinBoat extends Entity implements IBoat {
         handleRuddering();
         decideRudderStateByAccumulation();
         float f = 0.0F;
-        if (CommonConfig.allowSteeringWhenStopped.get() && getRudderState().isWorking() && getGearState().hasNoAction())
+        if (ClientConfig.allowSteeringWhenStopped.get() && getRudderState().isWorking() && getGearState().hasNoAction())
             f += 0.005F;
         handleGearing();
         decideGearStateByAccumulation();
-        f += getGearState().getGear().getStandardRate() * 0.08F;
-        if (CommonConfig.allowSteeringWhenStopped.get() || !getGearState().hasNoAction())
-            deltaRotation += (f >= 0.0F || CommonConfig.reverseRudderWhenSailingAstern.get() ? 1.0F : -1.0F) * 0.2F * getRudderState().getRudder().getStandardRate();
+        f += getGearState().getGear().getStandardRate() * 0.04F * ClientConfig.speedMultiplier.get();
+        if (ClientConfig.allowSteeringWhenStopped.get() || !getGearState().hasNoAction())
+            deltaRotation += (f >= 0.0F || ClientConfig.reverseRudderWhenSailingAstern.get() ? 1.0F : -1.0F) * 0.2F * getRudderState().getRudder().getStandardRate();
         this.yRot += this.deltaRotation;
         this.setDeltaMovement(this.getDeltaMovement().add(MathHelper.sin(-this.yRot * ((float) Math.PI / 180F)) * f, 0.0D, MathHelper.cos(this.yRot * ((float) Math.PI / 180F)) * f));
-        if (CommonConfig.allowSteeringWhenStopped.get())
+        if (ClientConfig.allowSteeringWhenStopped.get())
             this.setPaddleState((getRudderState().isRudderingToRight() || getGearState().isAhead()), getRudderState().isRudderingToLeft() || getGearState().isAhead());
         else this.setPaddleState(getGearState().isAhead(), getGearState().isAhead());
     }
@@ -163,7 +163,9 @@ public abstract class MixinBoat extends Entity implements IBoat {
                 rudderCd = 5;
                 if (getControllingPassenger() instanceof PlayerEntity) {
                     final PlayerEntity p = (PlayerEntity) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> p.playNotifySound(s, SoundCategory.PLAYERS, 1.0F, 1.0F));
+                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> {
+                        if (p.level.isClientSide) SoundUtil.playUISound(s);
+                    });
                 }
                 //todo: play sound
             }
@@ -176,7 +178,9 @@ public abstract class MixinBoat extends Entity implements IBoat {
                 rudderCd = 5;
                 if (getControllingPassenger() instanceof PlayerEntity) {
                     final PlayerEntity p = (PlayerEntity) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> p.playNotifySound(s, SoundCategory.PLAYERS, 1.0F, 1.0F));
+                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> {
+                        if (p.level.isClientSide) SoundUtil.playUISound(s);
+                    });
                 }
             }
         }
@@ -224,7 +228,9 @@ public abstract class MixinBoat extends Entity implements IBoat {
                 gearCd = 5;
                 if (getControllingPassenger() instanceof PlayerEntity) {
                     final PlayerEntity p = (PlayerEntity) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> p.playNotifySound(s, SoundCategory.PLAYERS, 1.0F, 1.0F));
+                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> {
+                        if (p.level.isClientSide) SoundUtil.playUISound(s);
+                    });
                 }
             }
         } else if (this.gearCd == 0 && !this.inputUp && this.inputDown) {
@@ -235,7 +241,9 @@ public abstract class MixinBoat extends Entity implements IBoat {
                 gearCd = 5;
                 if (getControllingPassenger() instanceof PlayerEntity) {
                     final PlayerEntity p = (PlayerEntity) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> p.playNotifySound(s, SoundCategory.PLAYERS, 1.0F, 1.0F));
+                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> {
+                        if (p.level.isClientSide) SoundUtil.playUISound(s);
+                    });
                 }
             }
         }

@@ -1,7 +1,7 @@
 package committee.nova.boatoverhaul.util;
 
 import committee.nova.boatoverhaul.BoatOverhaul;
-import committee.nova.boatoverhaul.common.config.CommonConfig;
+import committee.nova.boatoverhaul.common.config.ClientConfig;
 import committee.nova.boatoverhaul.common.sound.Sounds;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -15,7 +15,7 @@ public class RegistryHandler {
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, BoatOverhaul.MODID);
 
     public static void register() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, CommonConfig.CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, ClientConfig.CONFIG);
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         Sounds.init();
         SOUNDS.register(bus);
