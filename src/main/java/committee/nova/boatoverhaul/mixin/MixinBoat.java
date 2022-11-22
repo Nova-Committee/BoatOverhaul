@@ -16,7 +16,6 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -129,13 +128,10 @@ public abstract class MixinBoat extends Entity implements IBoat {
         rudderState = new RudderState();
         gearState = new GearState();
     }
-
-    /**
-     * @author Tapio
-     * @reason Overhaul ship sailing mechanism
-     */
-    @Overwrite
-    private void controlBoat() {
+    
+    @Inject(method = "controlBoat", at = @At("HEAD"), cancellable = true)
+    private void controlBoat(CallbackInfo ci) {
+        ci.cancel();
         if (!this.isVehicle()) return;
         handleRuddering();
         decideRudderStateByAccumulation();
