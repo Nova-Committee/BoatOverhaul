@@ -1,6 +1,7 @@
 package committee.nova.boatoverhaul.mixin;
 
 import committee.nova.boatoverhaul.api.common.boat.IBoat;
+import committee.nova.boatoverhaul.client.sound.SoundUtil;
 import committee.nova.boatoverhaul.common.boat.gear.Gear;
 import committee.nova.boatoverhaul.common.boat.gear.Rudder;
 import committee.nova.boatoverhaul.common.boat.state.GearState;
@@ -159,7 +160,9 @@ public abstract class MixinEntityBoat extends Entity implements IBoat {
                 rudderCd = 5;
                 if (getControllingPassenger() instanceof EntityPlayer) {
                     final EntityPlayer p = (EntityPlayer) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> p.playSound(s, 1.0F, 1.0F));
+                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> {
+                        if (p.world.isRemote) SoundUtil.playUISound(s);
+                    });
                     //todo: notifySound
                 }
             }
@@ -172,7 +175,9 @@ public abstract class MixinEntityBoat extends Entity implements IBoat {
                 rudderCd = 5;
                 if (getControllingPassenger() instanceof EntityPlayer) {
                     final EntityPlayer p = (EntityPlayer) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> p.playSound(s, 1.0F, 1.0F));
+                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> {
+                        if (p.world.isRemote) SoundUtil.playUISound(s);
+                    });
                 }
             }
         }
@@ -220,7 +225,9 @@ public abstract class MixinEntityBoat extends Entity implements IBoat {
                 gearCd = 5;
                 if (getControllingPassenger() instanceof EntityPlayer) {
                     final EntityPlayer p = (EntityPlayer) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> p.playSound(s, 1.0F, 1.0F));
+                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> {
+                        if (p.world.isRemote) SoundUtil.playUISound(s);
+                    });
                 }
             }
         } else if (this.gearCd == 0 && !this.forwardInputDown && this.backInputDown) {
@@ -231,7 +238,9 @@ public abstract class MixinEntityBoat extends Entity implements IBoat {
                 gearCd = 5;
                 if (getControllingPassenger() instanceof EntityPlayer) {
                     final EntityPlayer p = (EntityPlayer) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> p.playSound(s, 1.0F, 1.0F));
+                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> {
+                        if (p.world.isRemote) SoundUtil.playUISound(s);
+                    });
                 }
             }
         }
