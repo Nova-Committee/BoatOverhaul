@@ -11,7 +11,6 @@ import committee.nova.boatoverhaul.util.Utilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.item.BoatEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -161,13 +160,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
             if (origin != current) {
                 targetRudder = Rudder.getRudderFromNumerator(current);
                 rudderCd = 5;
-                if (getControllingPassenger() instanceof PlayerEntity) {
-                    final PlayerEntity p = (PlayerEntity) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> {
-                        if (p.level.isClientSide) SoundUtil.playUISound(s);
-                    });
-                }
-                //todo: play sound
+                Utilities.getSoundFromShiftable(targetRudder).ifPresent(SoundUtil::playUISound);
             }
         } else if (this.rudderCd == 0 && !this.inputLRudder && this.inputRRudder) {
             if (targetRudder == null) targetRudder = this.rudderState.getRudder();
@@ -176,12 +169,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
             if (origin != current) {
                 targetRudder = Rudder.getRudderFromNumerator(current);
                 rudderCd = 5;
-                if (getControllingPassenger() instanceof PlayerEntity) {
-                    final PlayerEntity p = (PlayerEntity) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetRudder).ifPresent(s -> {
-                        if (p.level.isClientSide) SoundUtil.playUISound(s);
-                    });
-                }
+                Utilities.getSoundFromShiftable(targetRudder).ifPresent(SoundUtil::playUISound);
             }
         }
         if ((this.inputLeft && !this.inputRight) || (targetRudder != null && targetRudder.compareTo(getRudderState().getRudder()) < 0)) {
@@ -226,12 +214,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
             if (original != current) {
                 targetGear = Gear.getGearFromNumerator(current);
                 gearCd = 5;
-                if (getControllingPassenger() instanceof PlayerEntity) {
-                    final PlayerEntity p = (PlayerEntity) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> {
-                        if (p.level.isClientSide) SoundUtil.playUISound(s);
-                    });
-                }
+                Utilities.getSoundFromShiftable(targetGear).ifPresent(SoundUtil::playUISound);
             }
         } else if (this.gearCd == 0 && !this.inputUp && this.inputDown) {
             final int original = getTargetGear().getNumerator();
@@ -239,12 +222,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
             if (original != current) {
                 targetGear = Gear.getGearFromNumerator(current);
                 gearCd = 5;
-                if (getControllingPassenger() instanceof PlayerEntity) {
-                    final PlayerEntity p = (PlayerEntity) getControllingPassenger();
-                    Utilities.getSoundFromShiftable(targetGear).ifPresent(s -> {
-                        if (p.level.isClientSide) SoundUtil.playUISound(s);
-                    });
-                }
+                Utilities.getSoundFromShiftable(targetGear).ifPresent(SoundUtil::playUISound);
             }
         }
         if (getTargetGear().compareTo(gearState.getGear()) < 0) {
