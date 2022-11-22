@@ -8,9 +8,14 @@ import java.io.File;
 public class CommonConfig {
     private static Configuration config;
     private static boolean allowSteeringWhenStopped;
+    private static boolean reverseRudderWhenSailingAstern;
 
     public static boolean shouldAllowSteeringWhenStopped() {
         return allowSteeringWhenStopped;
+    }
+
+    public static boolean shouldReverseRudderWhenSailingAstern() {
+        return reverseRudderWhenSailingAstern;
     }
 
     public static void init(FMLPreInitializationEvent event) {
@@ -22,6 +27,8 @@ public class CommonConfig {
         config.load();
         allowSteeringWhenStopped = config.getBoolean("allowSteeringWhenStopped", Configuration.CATEGORY_GENERAL, false,
                 "Allows a boat to turn its rudder with a very small extra forward speed when the gear state is at STOP", "config.boatoverhaul.allowSteeringWhenStopped");
+        reverseRudderWhenSailingAstern = config.getBoolean("reverseRudderWhenSailingAstern", Configuration.CATEGORY_GENERAL, false,
+                "If set to true, a boat sailing backwards and ruddering to right, for example, will sail to the left rearward", "config.boatoverhaul.reverseRudderWhenSailingAstern");
         config.save();
     }
 }

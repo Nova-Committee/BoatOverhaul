@@ -13,7 +13,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -67,9 +66,9 @@ public abstract class MixinEntityBoat extends Entity implements IBoat {
 
     @Override
     public void setInputExtended(boolean left, boolean right, boolean forward, boolean back, boolean lRudder, boolean rRudder) {
-        updateInputs(left, right, forward, back);
         inputLRudder = lRudder;
         inputRRudder = rRudder;
+        updateInputs(left, right, forward, back);
     }
 
     @Override
@@ -125,25 +124,22 @@ public abstract class MixinEntityBoat extends Entity implements IBoat {
         rudderState = new RudderState();
         gearState = new GearState();
     }
-
-    /**
-     * @author Tapio
-     * @reason Overhaul ship sailing mechanism
-     */
-    @Overwrite
-    private void controlBoat() {
+    
+    @Inject(method = "controlBoat", at = @At("HEAD"), cancellable = true)
+    private void inject$controlBoat(CallbackInfo ci) {
+        ci.cancel();
         if (!this.isBeingRidden()) return;
         float f = 0.0F;
         handleRuddering();
         decideRudderStateByAccumulation();
-        if (CommonConfig.shouldAllowSteeringWhenStopped() || !getGearState().hasNoAction())
-            deltaRotation += 0.2F * getRudderState().getRudder().getStandardRate();
         if (CommonConfig.shouldAllowSteeringWhenStopped() && getRudderState().isWorking() && getGearState().hasNoAction())
             f += 0.005F;
-        this.rotationYaw += this.deltaRotation;
         handleGearing();
         decideGearStateByAccumulation();
         f += getGearState().getGear().getStandardRate() * 0.08F;
+        if (CommonConfig.shouldAllowSteeringWhenStopped() || !getGearState().hasNoAction())
+            deltaRotation += ((f >= 0.0f || CommonConfig.shouldReverseRudderWhenSailingAstern()) ? 1.0F : -1.0F) * 0.2F * getRudderState().getRudder().getStandardRate();
+        this.rotationYaw += this.deltaRotation;
         this.motionX += MathHelper.sin(-this.rotationYaw * 0.017453292F) * f;
         this.motionZ += MathHelper.cos(this.rotationYaw * 0.017453292F) * f;
         if (CommonConfig.shouldAllowSteeringWhenStopped())
