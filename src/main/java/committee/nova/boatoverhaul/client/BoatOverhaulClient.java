@@ -1,7 +1,9 @@
 package committee.nova.boatoverhaul.client;
 
 import committee.nova.boatoverhaul.common.config.Config;
+import committee.nova.boatoverhaul.common.key.Keys;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 
 public class BoatOverhaulClient implements ClientModInitializer {
     private static boolean allowSteeringWhenStopped;
@@ -25,6 +27,8 @@ public class BoatOverhaulClient implements ClientModInitializer {
         allowSteeringWhenStopped = config.getOrDefault("allowRudderingWhenStopped", false);
         reverseRudderWhenSailingAstern = config.getOrDefault("reverseRudderWhenSailingAstern", false);
         speedMultiplier = config.getOrDefault("speedMultiplier", 1.0);
+        KeyBindingHelper.registerKeyBinding(Keys.keyLeftRudder);
+        KeyBindingHelper.registerKeyBinding(Keys.keyRightRudder);
     }
 
     @SuppressWarnings("unused")
