@@ -3,10 +3,8 @@
   "minVersion": "0.8",
   "package": "committee.nova.boatoverhaul.mixin",
   "compatibilityLevel": "JAVA_8",
-  "mixins": [
-    "MixinBoat"
-  ],
   "client": [
+    "MixinBoat",
     "MixinGui",
     "MixinInput",
     "MixinKeyboardInput",
