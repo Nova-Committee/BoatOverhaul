@@ -1,7 +1,7 @@
 package committee.nova.boatoverhaul.util;
 
 import committee.nova.boatoverhaul.BoatOverhaul;
-import committee.nova.boatoverhaul.common.config.ClientConfig;
+import committee.nova.boatoverhaul.client.config.ClientConfig;
 import committee.nova.boatoverhaul.common.sound.Sounds;
 import net.minecraft.util.SoundEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
