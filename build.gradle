@@ -19,6 +19,10 @@ version = mod_version
 group = mod_group
 archivesBaseName = jar_name
 
+def mixinless = project.hasProperty("nomixin")
+
+if (mixinless) archivesBaseName += "mixinless"
+
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 tasks.withType(JavaCompile) {
@@ -58,7 +62,11 @@ configurations {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    embed('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
+    if (!mixinless) embed('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
+        exclude module: 'guava'
+        exclude module: 'commons-io'
+        exclude module: 'gson'
+    } else compile('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'
         exclude module: 'gson'
@@ -101,6 +109,6 @@ jar {
     }
 }
 
-sourceSets { main { output.resourcesDir = output.classesDir } }
+//sourceSets { main { output.resourcesDir = output.classesDir } }
 
 jar.finalizedBy('reobfJar')

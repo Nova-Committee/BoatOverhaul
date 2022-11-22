@@ -5,10 +5,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.io.File;
 
-public class CommonConfig {
+public class ClientConfig {
     private static Configuration config;
     private static boolean allowSteeringWhenStopped;
     private static boolean reverseRudderWhenSailingAstern;
+    private static float speedMultiplier;
 
     public static boolean shouldAllowSteeringWhenStopped() {
         return allowSteeringWhenStopped;
@@ -18,6 +19,10 @@ public class CommonConfig {
         return reverseRudderWhenSailingAstern;
     }
 
+    public static float getSpeedMultiplier() {
+        return speedMultiplier;
+    }
+
     public static void init(FMLPreInitializationEvent event) {
         config = new Configuration(new File(event.getModConfigurationDirectory(), "BoatOverhaul.cfg"));
         sync();
@@ -25,10 +30,12 @@ public class CommonConfig {
 
     public static void sync() {
         config.load();
-        allowSteeringWhenStopped = config.getBoolean("allowSteeringWhenStopped", Configuration.CATEGORY_GENERAL, false,
-                "Allows a boat to turn its rudder with a very small extra forward speed when the gear state is at STOP", "config.boatoverhaul.allowSteeringWhenStopped");
-        reverseRudderWhenSailingAstern = config.getBoolean("reverseRudderWhenSailingAstern", Configuration.CATEGORY_GENERAL, false,
-                "If set to true, a boat sailing backwards and ruddering to right, for example, will sail to the left rearward", "config.boatoverhaul.reverseRudderWhenSailingAstern");
+        allowSteeringWhenStopped = config.getBoolean("allowSteeringWhenStopped", Configuration.CATEGORY_CLIENT, false,
+                "Allows a boat to turn its rudder with a very small extra forward speed when the gear state is at STOP");
+        reverseRudderWhenSailingAstern = config.getBoolean("reverseRudderWhenSailingAstern", Configuration.CATEGORY_CLIENT, false,
+                "If set to true, a boat sailing backwards and ruddering to right, for example, will sail to the left rearward");
+        speedMultiplier = config.getFloat("speedMultiplier", Configuration.CATEGORY_CLIENT, 1.0F,
+                0.1F, 2.0F, "The multiplier of the boat's max speed forward");
         config.save();
     }
 }

@@ -3,10 +3,8 @@
   "required": true,
   "package": "committee.nova.boatoverhaul.mixin",
   "refmap": "refmap.boatoverhaul.json",
-  "mixins": [
-    "MixinEntityBoat"
-  ],
   "client": [
+    "MixinEntityBoat",
     "MixinEntityPlayerSP",
     "MixinMovementInput",
     "MixinMovementInputFromOptions"
