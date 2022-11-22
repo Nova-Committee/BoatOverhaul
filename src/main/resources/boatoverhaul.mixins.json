@@ -4,10 +4,8 @@
   "package": "committee.nova.boatoverhaul.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "boatoverhaul.refmap.json",
-  "mixins": [
-    "MixinBoat"
-  ],
   "client": [
+    "MixinBoat",
     "MixinInput",
     "MixinKeyboardInput",
     "MixinLocalPlayer"
