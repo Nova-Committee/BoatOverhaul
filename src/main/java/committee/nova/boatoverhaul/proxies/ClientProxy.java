@@ -1,7 +1,7 @@
 package committee.nova.boatoverhaul.proxies;
 
 import committee.nova.boatoverhaul.client.key.Keys;
-import committee.nova.boatoverhaul.common.config.ClientConfig;
+import committee.nova.boatoverhaul.client.config.ClientConfig;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

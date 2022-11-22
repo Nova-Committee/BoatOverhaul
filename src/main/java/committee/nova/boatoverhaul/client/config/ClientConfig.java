@@ -1,4 +1,4 @@
-package committee.nova.boatoverhaul.common.config;
+package committee.nova.boatoverhaul.client.config;
 
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;

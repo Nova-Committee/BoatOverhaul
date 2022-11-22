@@ -6,7 +6,7 @@ import committee.nova.boatoverhaul.common.boat.gear.Gear;
 import committee.nova.boatoverhaul.common.boat.gear.Rudder;
 import committee.nova.boatoverhaul.common.boat.state.GearState;
 import committee.nova.boatoverhaul.common.boat.state.RudderState;
-import committee.nova.boatoverhaul.common.config.ClientConfig;
+import committee.nova.boatoverhaul.client.config.ClientConfig;
 import committee.nova.boatoverhaul.util.Utilities;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityBoat;
