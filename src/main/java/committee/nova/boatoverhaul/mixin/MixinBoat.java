@@ -15,7 +15,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -131,12 +130,9 @@ public abstract class MixinBoat extends Entity implements IBoat {
         gearState = new GearState();
     }
 
-    /**
-     * @author Tapio
-     * @reason Overhaul ship sailing mechanism
-     */
-    @Overwrite
-    public void controlBoat() {
+    @Inject(method = "controlBoat", at = @At("HEAD"), cancellable = true)
+    private void inject$controlBoat(CallbackInfo ci) {
+        ci.cancel();
         if (!this.isVehicle()) return;
         handleRuddering();
         decideRudderStateByAccumulation();
