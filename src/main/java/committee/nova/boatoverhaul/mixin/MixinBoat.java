@@ -27,9 +27,9 @@ public abstract class MixinBoat extends Entity implements IBoat {
     private int gearCd;
     private int rudderCd;
     private int rudderAccumulation;
-    private final int maxRudderAccumulation = 20;
+    private final int maxRudderAccumulation = 5;
     private int gearAccumulation;
-    private final int maxGearAccumulation = 20;
+    private final int maxGearAccumulation = 5;
     private boolean inputLRudder;
     private boolean inputRRudder;
     private Rudder targetRudder;
@@ -157,18 +157,18 @@ public abstract class MixinBoat extends Entity implements IBoat {
         if (this.rudderCd == 0 && this.inputLRudder && !this.inputRRudder) {
             if (targetRudder == null) targetRudder = this.rudderState.getRudder();
             final int origin = targetRudder.getNumerator();
-            final int current = Math.max(targetRudder.getNumerator() - 1, Rudder.getMinimumNumerator());
+            final int current = Math.max(targetRudder.getNumerator() - 4, Rudder.getMinimumNumerator());
             if (origin != current) {
-                targetRudder = Rudder.getRudderFromNumerator(current);
+                targetRudder = Rudder.getNearestExplicitRudder(current, false);
                 rudderCd = 5;
                 Utilities.getSoundFromShiftable(targetRudder).ifPresent(SoundUtil::playUISound);
             }
         } else if (this.rudderCd == 0 && !this.inputLRudder && this.inputRRudder) {
             if (targetRudder == null) targetRudder = this.rudderState.getRudder();
             final int origin = targetRudder.getNumerator();
-            final int current = Math.min(targetRudder.getNumerator() + 1, targetRudder.getDenominator());
+            final int current = Math.min(targetRudder.getNumerator() + 4, targetRudder.getDenominator());
             if (origin != current) {
-                targetRudder = Rudder.getRudderFromNumerator(current);
+                targetRudder = Rudder.getNearestExplicitRudder(current, true);
                 rudderCd = 5;
                 Utilities.getSoundFromShiftable(targetRudder).ifPresent(SoundUtil::playUISound);
             }
@@ -211,7 +211,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
         if (this.gearCd > 0) gearCd--;
         if (this.gearCd == 0 && this.inputUp && !this.inputDown) {
             final int original = getTargetGear().getNumerator();
-            final int current = Math.min(getTargetGear().getNumerator() + 1, getTargetGear().getDenominator());
+            final int current = Math.min(getTargetGear().getNumerator() + 4, getTargetGear().getDenominator());
             if (original != current) {
                 targetGear = Gear.getGearFromNumerator(current);
                 gearCd = 5;
@@ -221,7 +221,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
             }
         } else if (this.gearCd == 0 && !this.inputUp && this.inputDown) {
             final int original = getTargetGear().getNumerator();
-            final int current = Math.max(getTargetGear().getNumerator() - 1, Gear.getMinimumNumerator());
+            final int current = Math.max(getTargetGear().getNumerator() - 4, Gear.getMinimumNumerator());
             if (original != current) {
                 targetGear = Gear.getGearFromNumerator(current);
                 gearCd = 5;
