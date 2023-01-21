@@ -8,7 +8,10 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 public class BoatOverhaulClient implements ClientModInitializer {
     private static boolean allowSteeringWhenStopped;
     private static boolean reverseRudderWhenSailingAstern;
-    private static double speedMultiplier;
+    private static int gearX;
+    private static int gearY;
+    private static int rudderX;
+    private static int rudderY;
     private static Config config;
 
     @Override
@@ -19,12 +22,21 @@ public class BoatOverhaulClient implements ClientModInitializer {
                         "allowRudderingWhenStopped=false" + "\n" +
                         "# If set to true, a boat sailing backwards and ruddering to right, for example, will sail to the left rearward" + "\n" +
                         "reverseRudderWhenSailingAstern=false" + "\n" +
-                        "# The multiplier of the maximum sailing speed" + "\n" +
-                        "speedMultiplier=1.0"
+                        "# The X Offset of gear indicator" + "\n" +
+                        "gearX=0" + "\n" +
+                        "# The Y Offset of gear indicator" + "\n" +
+                        "gearY=0" + "\n" +
+                        "# The X Offset of rudder indicator" + "\n" +
+                        "rudderX=0" + "\n" +
+                        "# The Y Offset of rudder indicator" + "\n" +
+                        "rudderY=0"
         ).request();
         allowSteeringWhenStopped = config.getOrDefault("allowRudderingWhenStopped", false);
         reverseRudderWhenSailingAstern = config.getOrDefault("reverseRudderWhenSailingAstern", false);
-        speedMultiplier = config.getOrDefault("speedMultiplier", 1.0);
+        gearX = config.getOrDefault("gearX", 0);
+        gearY = config.getOrDefault("gearY", 0);
+        rudderX = config.getOrDefault("rudderX", 0);
+        rudderY = config.getOrDefault("rudderY", 0);
         KeyBindingHelper.registerKeyBinding(Keys.keyLeftRudder);
         KeyBindingHelper.registerKeyBinding(Keys.keyRightRudder);
     }
@@ -43,7 +55,19 @@ public class BoatOverhaulClient implements ClientModInitializer {
         return reverseRudderWhenSailingAstern;
     }
 
-    public static double getSpeedMultiplier() {
-        return speedMultiplier;
+    public static int getGearX() {
+        return gearX;
+    }
+
+    public static int getGearY() {
+        return gearY;
+    }
+
+    public static int getRudderX() {
+        return rudderX;
+    }
+
+    public static int getRudderY() {
+        return rudderY;
     }
 }

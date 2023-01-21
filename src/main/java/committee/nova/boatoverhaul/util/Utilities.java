@@ -14,23 +14,23 @@ public class Utilities {
         if (s instanceof Gear) {
             final Gear g = (Gear) s;
             switch (g.getNumerator()) {
-                case -1: {
+                case -4: {
                     option = Sounds.getSound(Sounds.GEAR_ASTERN);
                     break;
                 }
-                case 1: {
+                case 4: {
                     option = Sounds.getSound(Sounds.GEAR_AHEAD_1);
                     break;
                 }
-                case 2: {
+                case 8: {
                     option = Sounds.getSound(Sounds.GEAR_AHEAD_2);
                     break;
                 }
-                case 3: {
+                case 12: {
                     option = Sounds.getSound(Sounds.GEAR_AHEAD_3);
                     break;
                 }
-                case 4: {
+                case 16: {
                     option = Sounds.getSound(Sounds.GEAR_AHEAD_4);
                     break;
                 }
@@ -41,8 +41,8 @@ public class Utilities {
         if (s instanceof Rudder) {
             final Rudder r = (Rudder) s;
             switch (r.getNumerator()) {
-                case -2:
-                case 2: {
+                case -8:
+                case 8: {
                     option = Sounds.getSound(Sounds.RUDDER_FULL);
                     break;
                 }
