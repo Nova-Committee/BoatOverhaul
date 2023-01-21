@@ -7,6 +7,7 @@ import committee.nova.boatoverhaul.api.client.widget.IGearWidget;
 import committee.nova.boatoverhaul.api.client.widget.IRudderWidget;
 import committee.nova.boatoverhaul.api.client.widget.IWidget;
 import committee.nova.boatoverhaul.api.common.boat.IBoat;
+import committee.nova.boatoverhaul.client.BoatOverhaulClient;
 import committee.nova.boatoverhaul.client.overlay.CursorWidgets;
 import committee.nova.boatoverhaul.client.overlay.GearWidgets;
 import committee.nova.boatoverhaul.client.overlay.RudderWidgets;
@@ -29,10 +30,10 @@ public class OverlayInit {
         final Minecraft mc = Minecraft.getInstance();
         final int height = mc.getWindow().getGuiScaledHeight();
         final int width = mc.getWindow().getGuiScaledWidth();
-        final int gearXOffset = width / 2 - 50;
-        final int gearYOffset = height / 2 - 30;
-        final int rudderXOffset = width / 2 - 12;
-        final int rudderYOffset = height / 2 + 60;
+        final int gearXOffset = width / 2 - 50 + BoatOverhaulClient.getGearX();
+        final int gearYOffset = height / 2 - 30 + BoatOverhaulClient.getGearY();
+        final int rudderXOffset = width / 2 - 12 + BoatOverhaulClient.getRudderX();
+        final int rudderYOffset = height / 2 + 60 + BoatOverhaulClient.getRudderY();
         matrix.pushPose();
         startRender();
         RenderSystem.setShaderTexture(0, overlay);
@@ -66,13 +67,13 @@ public class OverlayInit {
 
     private static void renderGearCursor(Gear currentGear, int accumulationOffset, PoseStack matrix, int x, int y) {
         final IWidget g = CursorWidgets.GEAR_CURSOR;
-        final int actualY = y - currentGear.getNumerator() * 10 - accumulationOffset;
+        final int actualY = y - currentGear.getNumerator() * 10 / 4 - accumulationOffset / 4;
         GuiComponent.blit(matrix, x, actualY, g.getStartX(), g.getStartY(), g.getWidth(), g.getHeight(), 256, 256);
     }
 
     private static void renderRudderCursor(Rudder currentRudder, int accumulationOffset, PoseStack matrix, int x, int y) {
         final IWidget r = CursorWidgets.RUDDER_CURSOR;
-        final int actualX = x + currentRudder.getNumerator() * 25 + accumulationOffset;
+        final int actualX = x + currentRudder.getNumerator() * 25 / 4 + accumulationOffset / 4;
         GuiComponent.blit(matrix, actualX, y, r.getStartX(), r.getStartY(), r.getWidth(), r.getHeight(), 256, 256);
     }
 
