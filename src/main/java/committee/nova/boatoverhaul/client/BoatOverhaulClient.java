@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 public class BoatOverhaulClient implements ClientModInitializer {
     private static boolean allowSteeringWhenStopped;
     private static boolean reverseRudderWhenSailingAstern;
-    private static double speedMultiplier;
     private static int gearX;
     private static int gearY;
     private static int rudderX;
@@ -24,8 +23,6 @@ public class BoatOverhaulClient implements ClientModInitializer {
                         allowRudderingWhenStopped=false
                         # If set to true, a boat sailing backwards and ruddering to right, for example, will sail to the left rearward
                         reverseRudderWhenSailingAstern=false
-                        # The multiplier of the maximum sailing speed
-                        speedMultiplier=1.0
                         # The X Offset of gear indicator
                         gearX=0
                         # The Y Offset of gear indicator
@@ -38,7 +35,6 @@ public class BoatOverhaulClient implements ClientModInitializer {
         ).request();
         allowSteeringWhenStopped = config.getOrDefault("allowRudderingWhenStopped", false);
         reverseRudderWhenSailingAstern = config.getOrDefault("reverseRudderWhenSailingAstern", false);
-        speedMultiplier = config.getOrDefault("speedMultiplier", 1.0);
         gearX = config.getOrDefault("gearX", 0);
         gearY = config.getOrDefault("gearY", 0);
         rudderX = config.getOrDefault("rudderX", 0);
@@ -59,10 +55,6 @@ public class BoatOverhaulClient implements ClientModInitializer {
 
     public static boolean shouldReverseRudderWhenSailingAstern() {
         return reverseRudderWhenSailingAstern;
-    }
-
-    public static double getSpeedMultiplier() {
-        return speedMultiplier;
     }
 
     public static int getGearX() {

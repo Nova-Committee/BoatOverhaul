@@ -141,7 +141,7 @@ public abstract class MixinBoat extends Entity implements IBoat {
             f += 0.005F;
         handleGearing();
         decideGearStateByAccumulation();
-        f += getGearState().getGear().getStandardRate() * 0.04F * BoatOverhaulClient.getSpeedMultiplier();
+        f += getGearState().getGear().getStandardRate() * 0.04F;
         if (BoatOverhaulClient.shouldAllowSteeringWhenStopped() || !getGearState().hasNoAction())
             deltaRotation += (f >= 0.0F || BoatOverhaulClient.shouldReverseRudderWhenSailingAstern() ? 1.0F : -1.0F) * 0.2F * getRudderState().getRudder().getStandardRate();
         this.setYRot(this.getYRot() + this.deltaRotation);
