@@ -9,7 +9,10 @@ public class ClientConfig {
     private static Configuration config;
     private static boolean allowSteeringWhenStopped;
     private static boolean reverseRudderWhenSailingAstern;
-    private static float speedMultiplier;
+    private static int gearX;
+    private static int gearY;
+    private static int rudderX;
+    private static int rudderY;
 
     public static boolean shouldAllowSteeringWhenStopped() {
         return allowSteeringWhenStopped;
@@ -19,8 +22,20 @@ public class ClientConfig {
         return reverseRudderWhenSailingAstern;
     }
 
-    public static float getSpeedMultiplier() {
-        return speedMultiplier;
+    public static int getGearX() {
+        return gearX;
+    }
+
+    public static int getGearY() {
+        return gearY;
+    }
+
+    public static int getRudderX() {
+        return rudderX;
+    }
+
+    public static int getRudderY() {
+        return rudderY;
     }
 
     public static void init(FMLPreInitializationEvent event) {
@@ -34,8 +49,10 @@ public class ClientConfig {
                 "Allows a boat to turn its rudder with a very small extra forward speed when the gear state is at STOP");
         reverseRudderWhenSailingAstern = config.getBoolean("reverseRudderWhenSailingAstern", Configuration.CATEGORY_CLIENT, false,
                 "If set to true, a boat sailing backwards and ruddering to right, for example, will sail to the left rearward");
-        speedMultiplier = config.getFloat("speedMultiplier", Configuration.CATEGORY_CLIENT, 1.0F,
-                0.1F, 2.0F, "The multiplier of the boat's max speed forward");
+        gearX = config.getInt("gearX", Configuration.CATEGORY_CLIENT, 0, -10000, 10000, "X Offset of gear indicator");
+        gearY = config.getInt("gearY", Configuration.CATEGORY_CLIENT, 0, -10000, 10000, "Y Offset of gear indicator");
+        rudderX = config.getInt("rudderX", Configuration.CATEGORY_CLIENT, 0, -10000, 10000, "X Offset of rudder indicator");
+        rudderY = config.getInt("rudderY", Configuration.CATEGORY_CLIENT, 0, -10000, 10000, "Y Offset of rudder indicator");
         config.save();
     }
 }
