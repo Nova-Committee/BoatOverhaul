@@ -6,7 +6,10 @@ public class ClientConfig {
     public static final ForgeConfigSpec CONFIG;
     public static final ForgeConfigSpec.BooleanValue allowSteeringWhenStopped;
     public static final ForgeConfigSpec.BooleanValue reverseRudderWhenSailingAstern;
-    public static final ForgeConfigSpec.DoubleValue speedMultiplier;
+    public static final ForgeConfigSpec.IntValue gearX;
+    public static final ForgeConfigSpec.IntValue gearY;
+    public static final ForgeConfigSpec.IntValue rudderX;
+    public static final ForgeConfigSpec.IntValue rudderY;
 
     static {
         final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
@@ -15,8 +18,10 @@ public class ClientConfig {
                 .define("allowRudderingWhenStopped", false);
         reverseRudderWhenSailingAstern = builder.comment("If set to true, a boat sailing backwards and ruddering to right, for example, will sail to the left rearward")
                 .define("reverseRudderWhenSailingAstern", false);
-        speedMultiplier = builder.comment("The multiplier of the boat's max speed forward.")
-                .defineInRange("speedMultiplier", 1.0, 0.1, 2.0);
+        gearX = builder.comment("X offset of gear indicator").defineInRange("gearX", 0, -10000, 10000);
+        gearY = builder.comment("Y offset of gear indicator").defineInRange("gearY", 0, -10000, 10000);
+        rudderX = builder.comment("X offset of rudder indicator").defineInRange("gearX", 0, -10000, 10000);
+        rudderY = builder.comment("Y offset of rudder indicator").defineInRange("gearX", 0, -10000, 10000);
         CONFIG = builder.build();
     }
 }

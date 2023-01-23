@@ -3,12 +3,27 @@ package committee.nova.boatoverhaul.common.boat.gear;
 import committee.nova.boatoverhaul.api.common.boat.shiftable.IShiftable;
 
 public enum Gear implements IShiftable {
-    ASTERN(-1, 4),
-    STOP(0, 4),
-    ONE_QUARTER(1, 4),
-    ONE_HALF(2, 4),
-    THREE_QUARTERS(3, 4),
-    FULL(4, 4);
+    ASTERN(-4, 16),
+    N3(-3, 16),
+    N2(-2, 16),
+    N1(-1, 16),
+    STOP(0, 16),
+    P1(1, 16),
+    P2(2, 16),
+    P3(3, 16),
+    ONE_QUARTER(4, 16),
+    P5(5, 16),
+    P6(6, 16),
+    P7(7, 16),
+    ONE_HALF(8, 16),
+    P9(9, 16),
+    P10(10, 16),
+    P11(11, 16),
+    THREE_QUARTERS(12, 16),
+    P13(13, 16),
+    P14(14, 16),
+    P15(15, 16),
+    FULL(16, 16);
     private final int numerator;
     private final int denominator;
 
@@ -28,7 +43,7 @@ public enum Gear implements IShiftable {
     }
 
     public static int getMinimumNumerator() {
-        return -1;
+        return -4;
     }
 
     public static Gear getGearFromNumerator(int numerator) {
