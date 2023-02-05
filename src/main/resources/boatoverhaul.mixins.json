@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "committee.nova.boatoverhaul.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "boatoverhaul.refmap.json",
+  "client": [
+    "MixinBoat",
+    "MixinInput",
+    "MixinKeyboardInput",
+    "MixinLocalPlayer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
