@@ -13,17 +13,17 @@ public class Utilities {
         Optional<SoundEvent> option = Optional.empty();
         if (s instanceof Gear g) {
             switch (g.getNumerator()) {
-                case -1 -> option = Sounds.getSound(Sounds.GEAR_ASTERN);
-                case 1 -> option = Sounds.getSound(Sounds.GEAR_AHEAD_1);
-                case 2 -> option = Sounds.getSound(Sounds.GEAR_AHEAD_2);
-                case 3 -> option = Sounds.getSound(Sounds.GEAR_AHEAD_3);
-                case 4 -> option = Sounds.getSound(Sounds.GEAR_AHEAD_4);
+                case -4 -> option = Sounds.getSound(Sounds.GEAR_ASTERN);
+                case 4 -> option = Sounds.getSound(Sounds.GEAR_AHEAD_1);
+                case 8 -> option = Sounds.getSound(Sounds.GEAR_AHEAD_2);
+                case 12 -> option = Sounds.getSound(Sounds.GEAR_AHEAD_3);
+                case 16 -> option = Sounds.getSound(Sounds.GEAR_AHEAD_4);
                 default -> option = Sounds.getSound(Sounds.GEAR_STOP);
             }
         }
         if (s instanceof Rudder r) {
             switch (r.getNumerator()) {
-                case -2, 2 -> option = Sounds.getSound(Sounds.RUDDER_FULL);
+                case -8, 8 -> option = Sounds.getSound(Sounds.RUDDER_FULL);
                 default -> option = Sounds.getSound(Sounds.RUDDER_HALF);
             }
         }
