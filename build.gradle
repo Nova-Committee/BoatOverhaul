@@ -19,7 +19,7 @@ version = mod_version
 group = mod_group
 
 java {
-    archivesBaseName = 'MWDSF-Forge-1.12.2'
+    archivesBaseName = 'BoatOverhaul-Forge-1.12.2'
     toolchain.languageVersion = JavaLanguageVersion.of(8)
 }
 
