@@ -117,7 +117,8 @@ jar {
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
                 "TweakClass"              : "org.spongepowered.asm.launch.MixinTweaker",
                 "TweakOrder"              : 0,
-                "MixinConfigs"            : "boatoverhaul.mixins.json"
+                "MixinConfigs"            : "boatoverhaul.mixins.json",
+                "ForceLoadAsMod"          : "true"
         ])
     }
 }
