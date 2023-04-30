@@ -17,8 +17,6 @@ jobs:
         run: chmod +x gradlew
       - name: Build with Gradle
         run: ./gradlew build -PuseCommitHashInVersion
-      - name: Build with Gradle (nomixin)
-        run: ./gradlew build -PuseCommitHashInVersion -Pnomixin
       - uses: actions/upload-artifact@v2
         with:
           name: BoatOverhaul-1.12.2

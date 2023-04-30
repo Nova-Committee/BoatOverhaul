@@ -2,7 +2,7 @@
   "compatibilityLevel": "JAVA_8",
   "required": true,
   "package": "committee.nova.boatoverhaul.mixin",
-  "refmap": "refmap.boatoverhaul.json",
+  "refmap": "boatoverhaul.mixin-refmap.json",
   "client": [
     "MixinEntityBoat",
     "MixinEntityPlayerSP",
