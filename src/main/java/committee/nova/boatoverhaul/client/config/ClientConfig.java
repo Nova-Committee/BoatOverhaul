@@ -20,8 +20,8 @@ public class ClientConfig {
                 .define("reverseRudderWhenSailingAstern", false);
         gearX = builder.comment("X offset of gear indicator").defineInRange("gearX", 0, -10000, 10000);
         gearY = builder.comment("Y offset of gear indicator").defineInRange("gearY", 0, -10000, 10000);
-        rudderX = builder.comment("X offset of rudder indicator").defineInRange("gearX", 0, -10000, 10000);
-        rudderY = builder.comment("Y offset of rudder indicator").defineInRange("gearX", 0, -10000, 10000);
+        rudderX = builder.comment("X offset of rudder indicator").defineInRange("rudderX", 0, -10000, 10000);
+        rudderY = builder.comment("Y offset of rudder indicator").defineInRange("rudderY", 0, -10000, 10000);
         CONFIG = builder.build();
     }
 }
