@@ -20,7 +20,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
 public class OverlayInit {
-    private static final ResourceLocation overlay = new ResourceLocation(BoatOverhaul.MODID, "textures/overlay/indicator.png");
+    private static final ResourceLocation overlay = ResourceLocation.fromNamespaceAndPath(BoatOverhaul.MODID, "textures/overlay/indicator.png");
 
     public static void renderBoatOverlay(GuiGraphics graphics) {
         final Player player = Minecraft.getInstance().player;

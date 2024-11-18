@@ -34,7 +34,7 @@ public enum Sounds implements Sound {
 
     public static void init() {
         for (final Sound sound : Sounds.values()) {
-            final ResourceLocation r = new ResourceLocation(BoatOverhaul.MODID, sound.getId());
+            final ResourceLocation r = ResourceLocation.fromNamespaceAndPath(BoatOverhaul.MODID, sound.getId());
             soundList.put(sound.getId(), Registry.register(BuiltInRegistries.SOUND_EVENT, r, SoundEvent.createVariableRangeEvent(r)));
         }
     }
