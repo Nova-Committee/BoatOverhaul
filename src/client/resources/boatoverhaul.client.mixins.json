@@ -1,0 +1,18 @@
+{
+	"required": true,
+	"package": "committee.nova.boatoverhaul.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"MixinAbstractBoat",
+		"MixinClientInput",
+		"MixinGui",
+		"MixinKeyboardInput",
+		"MixinLocalPlayer"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

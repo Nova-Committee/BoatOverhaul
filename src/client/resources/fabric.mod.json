@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "boatoverhaul",
+	"version": "${version}",
+	"name": "${mod_name}",
+	"description": "Add a telegraph-based boat sailing mechanism to Minecraft!",
+	"authors": [
+		"VulpeStela"
+	],
+	"contact": {
+		"sources": "https://github.com/Nova-Committee/BoatOverhaul"
+	},
+	"license": "GNU-AGPL-3.0-only",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"committee.nova.boatoverhaul.BoatOverhaulClient"
+		]
+	},
+	"mixins": [
+		{
+			"config": "boatoverhaul.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": "*",
+		"fabric-api": "*",
+		"minecraft": "~26.1.2",
+		"java": ">=25"
+	}
+}
